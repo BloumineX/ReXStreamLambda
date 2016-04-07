@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Retour XP sur Java 8</title>
+
+		<meta name="description" content="Présentation Extia Stream Lambda">
+		<meta name="author" content="Xavier BLOUMINE">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Retour d'expérience</h1>
+					<h3>Les streams et les lambdas ont changé ma manière de programmer !</h3>
+					<p>
+						<small>Created by Xavier BLOUMINE</a> / <a href="https://twitter.com/bloumix">@bloumix</a></small>
+					</p>
+				</section>
+
+                <section>
+                    <h2>Who Am I ? </h2>
+                    <p class="fragment"> 
+                       Developpeur Java 6 Ans xp<br />
+                       Passionné par le Clean Code et les best practices ! <br />
+                       <small>(TDD/BDD/DDD/Craftman/conférences/...)</small>
+                    </p>
+                    <p class="fragment">
+                        En mission chez <font color="orange"> Natixis </font> crédit consomation
+                        <br /><small>Contexte : JBoss EAP 6.4 / Java 8 / JPA / Rest / ... </small>
+                    </p>
+                </section>
+                
+                <section>
+                       <h2 style="text-decoration:none;">Au Programme</h2>
+       				<ul>
+                        <li class="fragment">Pouquoi ce talk ?</li>
+                        <li class="fragment">Retro sur la JSR 337 : Java 8</li>
+                        <li class="fragment">Comment Java 8 améliore la lisibilité de notre code ?</li>
+                            <ul class="fragment">
+                                <li>Evite d'implémenter des interfaces <font color="orange">polluantes</font></li>
+                                <li><font color="orange">Simplification</font> sur le traitement des collections</li>
+                                <li>Collection : Boucle for ? forEach ?</li>
+                            </ul>
+                        <li class="fragment">Comment ça fonctionne alors !</li>
+                            <ul class="fragment">
+                                <li>Les interfaces fonctionnelles</li>
+                                <li>Les Lambdas</li>
+                                <li>Les streams</li>
+                            </ul>
+                        <li class="fragment">(Bonus) Quelques exemples avec le REPL (Java 9)</li>
+					</ul>
+                </section>
+                
+                <section>
+					<h2>Pourquoi ce talk ?</h2>
+                    <aside class="notes">
+                        Sondage qui a déjà pratiqué Java 8 ? <br />
+                        Plupart des gens utilisent java 6 voire java 7 :((( <br />
+                        Promouvoir la curiosité :)<br />
+                        et s'amuser !!!
+                    </aside>
+				</section>
+				
+                <section>
+                    <h2>JSR 337 : Java 8</h2>
+                    <ul>
+                        <li>Interface @Default</li>
+                        <li>Interface Fonctionnelle</li>
+                        <li>JavaFX</li>
+                        <li>Java Time</li>
+                        <li>Lambda</li>
+                        <li>Security</li>
+                        <li>Stream</li>
+                        <li>plus d'info sur le site d'<a href="http://www.oracle.com/technetwork/java/javase/8-whats-new-2157071.html">Oracle</a></li>    
+                    </ul>
+                    
+                    <aside class="notes">
+                        -> security : ajout TLS1.2 par defaut / Kerberos inclus / KeyStore enhencement... <br />
+                        -> Java FX : possibilité d'embarquer du Swing dans FX, support html5' <br />
+                    </aside>
+                </section>
+                <section>
+                    <h2>Comment Java 8 améliore la lisibilité de notre code</h2>
+                     <small>Démonstration par l'exemple</small>
+                </section>
+                     
+                 <section>
+                     <section>
+                         <h3>trier une liste</h3>
+                         <h4>Objectif : trier une liste à l'aide d'un Comparator</h4>
+                         <h5>Java 7</h5>
+                        <pre><code class="java hljs" data-trim>
+Comparator< String> c = new comparator< String>() {
+    @Override
+    public boolean compare(String s1, String s2) {
+        return s1.compageIgnoreCase(s2);
+    } 
+}
+/// stuff there ///
+list.sort(c);</code></pre>
+                        <small style="text-align:left">
+                            Utilisation d'une classe anonyme pour pouvoir utiliser le Comparator<br />
+                            Résultat : Rend le code moins lisible en devant réimplémenter la classe Comparator (cas simple)... 
+                        </small>
+                        <p style="text-align:center" class="fragment"><img width="200" src="http://static.fjcdn.com/pictures/The_d05891_1008038.jpg" title="boring" />
+                     </section>
+                     <section>
+                        <h3>Java 8</h3>
+                        <pre><code class="java hljs" data-trim>
+list.sort((s1, s2) -> s1.compareIgnoreCase(s2));</code></pre>
+<small style="text-align:left">Utilisation d'une Lambda</small><br />
+<img src="http://media.newschoolers.com/uploads/images/17/00/59/73/29/597329.jpeg" />
+                        </section>
+                </section>  
+                <section>
+                    <section>
+                        <h2>Traitement un peu plus complexe sur les collections</h2>
+                        <h3 style="text-align:left">Objectif : </h3>
+                        <ul>
+                            <li>Enlever d'une liste les éléments <font color="orange">impaires</font d'une liste</li>
+                            <li><font color="orange">Multiplier par deux</font> les éléments restant</li>   
+                            <li>Enlever les <font color="orange">doublons</font></li>
+                            <li><font color="orange">Additionner</font> les valeurs restantes</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Java 7</h3>
+                        <pre><code class="java">
+//On ne peux pas modifier une liste sur lequel on iterer
+// donc on la copie dans une nouvelle liste
+List< Integer> listResult = new ArrayList< >(list);
+                            
+//enlever les éléments impaires
+for (Integer i : list) {
+    if (i%2 == 0)
+        listResult.remove(i);
+}
+//enlever les doublons
+Set< Integer> setInte = new HashSet<>(listResult);
+//Multiplier par 2 les élements et renvoyer la somme
+Integer result = 0;
+for (Integer i : setInte) {
+    result = result + i * 2;
+}
+                        </code></pre>
+                        <h3 class="fragment" ><font color="red">OMG</font></h3>
+                        <aside class="notes">
+                            regrouper multiplier par 2 et result pour eviter une nouvelle iteration
+                        </aside>
+                    </section>
+                    <section>
+                        <h3>Java 8</h3>
+                        <small>On va simplifier un peu le code ...</small>
+                        <pre class="fragment"><code class="java">
+list.stream()
+    .filter((value -> value % 2 != 0))
+    .map(value -> value = value * 2)
+    .distinct()
+    .reduce(0, (val1, val2) -> val1 + val2)
+                         </code></pre>   
+                    </section>
+                </section>
+                <section>
+                     <h3>Boucle for/ForEach sur les collections ?</h3>
+                     <p class="fragment">Rien de plus facile !</p>
+                                             <pre class="fragment"><code class="java">
+//le for n'a pas de d'équivalent pur car il est trop générique
+//les streams peuvent parcourir les éléments facilement et faire des opérations dessus.
+list.stream()
+    .filter((value -> value % 2 != 0))
+    .map(value -> value = value * 2)
+    .distinct()
+    .forEach(value -> System::println) //forEach ;)
+                         </code></pre>
+                </section>
+                
+                <section>
+                    <h2>Mais Comment ça fonctionne ???</h2>
+                    <small style="text-align:left">
+                            Un peu d'histoire : <br />
+                            Dans certains langages telle que les langages fonctionnels (scala / haskell / ...) ou encore le JS 
+                            il est possible de passer des fonctions en tant que paramêtre.<br />
+                            En Java, tout est objet ! on ne peut pas passer des fonctions car ça n'existe pas ...
+                    </small>
+                    <p class="fragment"><img width="350" src="https://s1.yimg.com/lm/ysbp/img/q_BapNcEZLbzOUST48_JTA7k1hmxuYdUfCjvpL2TnNCBLc_buEcLHPggJF5tl_KQ.jpg"/></p>
+                </section>
+                              
+                <section>
+                    <h2>les Interfaces fonctionnelles</h2>
+                    <p>Interface ne possédant qu'une seule méthode <font color="orange"> abstraite </font></p>
+                    <small style="text-align:left">
+                        Peut avoir n méthodes implémentées mais <font color="red">uniquement</font> une méthode abstraite <br />
+                        Sert de conteneur pour la méthode abstraite
+                    </small>
+                    <p>L'Annotation <font color="orange">@FunctionnalInterface </font> indique au compilateur que cette interface est une interface Fonctionnelle</p>
+                    <pre>
+                        <code class="java hljs" data-trim>
+@FunctionnalInterface
+public Interface StringComparator {
+    default int methodFolle(String a) { /* Some stuff there */}
+    int compare(String a, String b);
+}</code></pre>
+                    <p><small>La liste des interfaces fonctionnelles disponible de l'<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html">api</a></small></p>
+                    
+                    <aside class="notes" >
+                        Equivalent en C++ : functeur pointeur de fonction <br />
+                        Le principe : encapsuler la methode abstraite au sein d'un objet java
+                    </aside>
+                </section>
+                
+                <section>
+                    <h3>exemple</h3>
+                     <small>Contexte : on voudrait afficher chaque valeur d'une liste grâce à la méthode forEach</small>
+                     
+                </section>
+                
+                
+                <section>
+                    <h2>Les Lambdas</h2>
+                    
+                </section>
+				
+                
+                
+                
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+                slideNumber: 'c/t',
+
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
