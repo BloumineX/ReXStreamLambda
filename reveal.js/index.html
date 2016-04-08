@@ -161,9 +161,9 @@ list.sort((s1, s2) -> s1.compareIgnoreCase(s2));</code></pre>
 // donc on la copie dans une nouvelle liste
 List< Integer> listResult = new ArrayList< >(list);
                             
-//enlever les éléments impaires
+//enlever les éléments impairs
 for (Integer i : list) {
-    if (i%2 == 0)
+    if (i%2 != 0)
         listResult.remove(i);
 }
 //enlever les doublons
@@ -185,7 +185,7 @@ for (Integer i : setInte) {
                         <pre class="fragment"><code class="java">
 list.stream()
     .filter((value -> value % 2 != 0))
-    .map(value -> value = value * 2)
+    .map(value -> value * 2)
     .distinct()
     .reduce(0, (val1, val2) -> val1 + val2)
                          </code></pre>   
@@ -199,7 +199,7 @@ list.stream()
 //les streams peuvent parcourir les éléments facilement et faire des opérations dessus.
 list.stream()
     .filter((value -> value % 2 != 0))
-    .map(value -> value = value * 2)
+    .map(value -> value * 2)
     .distinct()
     .forEach(value -> System::println) //forEach ;)
                          </code></pre>
@@ -320,7 +320,7 @@ Arrays.&lt;String>asList("tst1", "tst2")
 //Plusieurs parametre (reduce), parenthèse Obligatoire
 list.stream()
     .filter((value -> value % 2 != 0))
-    .map(value -> value = value * 2)
+    .map(value ->  value * 2)
     .distinct()
     .reduce(0, (val1, val2) -> val1 + val2)
                     </code></pre> 
