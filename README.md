@@ -1,8 +1,8 @@
-# Readme
+# TD
 
 ## Slides
-http://bloumineX.github.io/RexStreamLambda
+http://BloumineX.github.io/RexStreamLambda
 
-## License
+## Licence
 
 MIT Licensed

@@ -74,4 +74,32 @@ public class ComparatorTest {
         );
     }
 
+
+    @Test
+    public void should_use_printerList_when_using_foreach() {
+        List<Integer> list = Arrays.<Integer>asList(4,5,2,1,3, 8, 9, 13);
+
+        list.stream().forEach(PrinterList::print);
+    }
+
+
+    @Test
+    public void should_validate_some_lambda_version() {
+        Arrays.< String>asList("tst1", "tst2")
+                .forEach(value -> System.out.println(value));
+
+        Arrays.< String>asList("tst1", "tst2")
+                .forEach((String value) -> System.out.println(value));
+
+        Arrays.< String>asList("tst1", "tst2")
+                .forEach(value -> {
+                    //block
+
+                    value =  "toto";
+
+                    //some stuff can be done
+                    System.out.println(value);
+                });
+    }
+
 }

@@ -51,12 +51,12 @@
                 <section>
                     <h2>Who Am I ? </h2>
                     <p class="fragment"> 
-                       Developpeur Java 6 Ans xp<br />
+                       Développeur Java 6 Ans xp<br />
                        Passionné par le Clean Code et les best practices ! <br />
                        <small>(TDD/BDD/DDD/Craftman/conférences/...)</small>
                     </p>
                     <p class="fragment">
-                        En mission chez <font color="orange"> Natixis </font> crédit consomation
+                        En mission chez <font color="orange"> Natixis </font> crédit consommation
                         <br /><small>Contexte : JBoss EAP 6.4 / Java 8 / JPA / Rest / ... </small>
                     </p>
                 </section>
@@ -64,7 +64,7 @@
                 <section>
                        <h2 style="text-decoration:none;">Au Programme</h2>
        				<ul>
-                        <li class="fragment">Pouquoi ce talk ?</li>
+                        <li class="fragment">Pourquoi ce talk ?</li>
                         <li class="fragment">Retro sur la JSR 337 : Java 8</li>
                         <li class="fragment">Comment Java 8 améliore la lisibilité de notre code ?</li>
                             <ul class="fragment">
@@ -72,11 +72,11 @@
                                 <li><font color="orange">Simplification</font> sur le traitement des collections</li>
                                 <li>Collection : Boucle for ? forEach ?</li>
                             </ul>
-                        <li class="fragment">Comment ça fonctionne alors !</li>
+                        <li class="fragment">Comment ça fonctionne alors ?!</li>
                             <ul class="fragment">
                                 <li>Les interfaces fonctionnelles</li>
                                 <li>Les Lambdas</li>
-                                <li>Les streams</li>
+                                <li>Les streams()</li>
                             </ul>
                         <li class="fragment">(Bonus) Quelques exemples avec le REPL (Java 9)</li>
 					</ul>
@@ -102,7 +102,7 @@
                         <li>Lambda</li>
                         <li>Security</li>
                         <li>Stream</li>
-                        <li>plus d'info sur le site d'<a href="http://www.oracle.com/technetwork/java/javase/8-whats-new-2157071.html">Oracle</a></li>    
+                        <li>plus d'infos sur le site d'<a href="http://www.oracle.com/technetwork/java/javase/8-whats-new-2157071.html">Oracle</a></li>    
                     </ul>
                     
                     <aside class="notes">
@@ -121,7 +121,7 @@
                          <h4>Objectif : trier une liste à l'aide d'un Comparator</h4>
                          <h5>Java 7</h5>
                         <pre><code class="java hljs" data-trim>
-Comparator< String> c = new comparator< String>() {
+Comparator&lt;String> c = new comparator&lt;String>() {
     @Override
     public boolean compare(String s1, String s2) {
         return s1.compageIgnoreCase(s2);
@@ -148,8 +148,8 @@ list.sort((s1, s2) -> s1.compareIgnoreCase(s2));</code></pre>
                         <h2>Traitement un peu plus complexe sur les collections</h2>
                         <h3 style="text-align:left">Objectif : </h3>
                         <ul>
-                            <li>Enlever d'une liste les éléments <font color="orange">impaires</font d'une liste</li>
-                            <li><font color="orange">Multiplier par deux</font> les éléments restant</li>   
+                            <li>Enlever d'une liste les éléments <font color="orange">impairs</font d'une liste</li>
+                            <li><font color="orange">Multiplier par deux</font> les éléments restants</li>   
                             <li>Enlever les <font color="orange">doublons</font></li>
                             <li><font color="orange">Additionner</font> les valeurs restantes</li>
                         </ul>
@@ -161,9 +161,9 @@ list.sort((s1, s2) -> s1.compareIgnoreCase(s2));</code></pre>
 // donc on la copie dans une nouvelle liste
 List< Integer> listResult = new ArrayList< >(list);
                             
-//enlever les éléments impaires
+//enlever les éléments impairs
 for (Integer i : list) {
-    if (i%2 == 0)
+    if (i%2 != 0)
         listResult.remove(i);
 }
 //enlever les doublons
@@ -185,7 +185,7 @@ for (Integer i : setInte) {
                         <pre class="fragment"><code class="java">
 list.stream()
     .filter((value -> value % 2 != 0))
-    .map(value -> value = value * 2)
+    .map(value -> value * 2)
     .distinct()
     .reduce(0, (val1, val2) -> val1 + val2)
                          </code></pre>   
@@ -199,73 +199,212 @@ list.stream()
 //les streams peuvent parcourir les éléments facilement et faire des opérations dessus.
 list.stream()
     .filter((value -> value % 2 != 0))
-    .map(value -> value = value * 2)
+    .map(value -> value * 2)
     .distinct()
     .forEach(value -> System::println) //forEach ;)
                          </code></pre>
                 </section>
                 
+    
                 <section>
-                    <h2>Mais Comment ça fonctionne ???</h2>
+                    <h2>Mais Comment ça fonctionne ?!?</h2>
                     <small style="text-align:left">
                             Un peu d'histoire : <br />
-                            Dans certains langages telle que les langages fonctionnels (scala / haskell / ...) ou encore le JS 
-                            il est possible de passer des fonctions en tant que paramêtre.<br />
-                            En Java, tout est objet ! on ne peut pas passer des fonctions car ça n'existe pas ...
+                            Dans certains langages tels que les langages fonctionnels (scala / haskell / ...) ou encore le JS, 
+                            il est possible de passer des fonctions en tant que paramètres.<br />
+                            En Java, tout est objet ! On ne peut pas passer des fonctions car ça n'existe pas ...
                     </small>
                     <p class="fragment"><img width="350" src="https://s1.yimg.com/lm/ysbp/img/q_BapNcEZLbzOUST48_JTA7k1hmxuYdUfCjvpL2TnNCBLc_buEcLHPggJF5tl_KQ.jpg"/></p>
                 </section>
-                              
-                <section>
-                    <h2>les Interfaces fonctionnelles</h2>
-                    <p>Interface ne possédant qu'une seule méthode <font color="orange"> abstraite </font></p>
-                    <small style="text-align:left">
-                        Peut avoir n méthodes implémentées mais <font color="red">uniquement</font> une méthode abstraite <br />
-                        Sert de conteneur pour la méthode abstraite
-                    </small>
-                    <p>L'Annotation <font color="orange">@FunctionnalInterface </font> indique au compilateur que cette interface est une interface Fonctionnelle</p>
-                    <pre>
-                        <code class="java hljs" data-trim>
+                <section>                          
+                    <section>
+                        <h2>les Interfaces fonctionnelles</h2>
+                        <p>Interface ne possédant qu'une seule méthode <font color="orange"> abstraite </font></p>
+                        <small style="text-align:left">
+                            Peut avoir n méthodes implémentées mais <font color="red">uniquement</font> une méthode abstraite <br />
+                            Sert de conteneur pour la méthode abstraite
+                        </small>
+                        <p>L'Annotation <font color="orange">@FunctionnalInterface </font> indique au compilateur que cette interface est une interface Fonctionnelle</p>
+                        <pre>
+                            <code class="java hljs" data-trim>
 @FunctionnalInterface
 public Interface StringComparator {
     default int methodFolle(String a) { /* Some stuff there */}
     int compare(String a, String b);
 }</code></pre>
-                    <p><small>La liste des interfaces fonctionnelles disponible de l'<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html">api</a></small></p>
-                    
-                    <aside class="notes" >
-                        Equivalent en C++ : functeur pointeur de fonction <br />
-                        Le principe : encapsuler la methode abstraite au sein d'un objet java
-                    </aside>
+                        <p><small>La liste des interfaces fonctionnelles disponibles de l'<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html">api</a></small></p>
+                        
+                        <aside class="notes" >
+                            Equivalent en C++ : functeur pointeur de fonction <br />
+                            Le principe : encapsuler la methode abstraite au sein d'un objet java
+                        </aside>
+                    </section>
+                
+                    <section>
+                        <h3>exemple</h3>
+                        <small style="text-align:left">Contexte : on voudrait afficher chaque valeur d'une liste grâce à la méthode forEach<br />
+                        Signature de la méthode : 
+                        <img src="css/forEach.png" />
+                        Implémentation
+                        </small>
+                        <pre><code class="java">
+Consumer< Integer> consumer = new Consumer< Integer>() {
+    @Override
+    public void accept(Integer integer) {
+        System.out.println(integer);
+    }
+};
+list.stream().forEach(consumer);
+                        </code></pre>
+<font class="fragment" color="red">Nous passons un objet et non une méthode !</font>
+                    </section>
+                    <section>
+                        <h3>Première solution possible</h3>
+                           <small><li>Passer la signature de la méthode qui sera interprété comme un Consumer !</li></small>
+                           <pre><code class="java">
+public class PrinterList {
+//static obligatoire car il n'y a pas d'implementation !
+    public static void print(Integer i) { 
+        System.out.println(i);
+    }
+}
+//Le compilateur va avec cette nouvelle syntaxe comprendre que cette méthode 
+//peut etre utiliser en tant que Consumer
+list.stream().forEach(PrinterList::print);
+//Possibilité aussi de passer par : 
+list.stream().forEach(System.out::println); 
+                        </code></pre>
+                        <small class="fragment">Même si le compilateur effectue des transformations en interne, nous envoyons maintenant notre méthode au lieu d'un objet !<br />
+                        <span class="fragment" ><font color="orange">Nous devons quand même créer une classe pour paramètrer notre fonction</font></span> 
+                        </small>
+                    </section>
+                    <section>
+                        <h3>Seconde solution possible</h3>
+                        <small><li>Passer par une fonction annonyme : une lambda</li>
+                        La fonction anonyme <font color="orange"> doit </font> respecter la signature de l'interface fonctionnelle
+                        </small>
+                        <pre><code class="java">
+list.stream().forEach((value) -> System.out.println(value));
+                        </code></pre>
+                        <img width="300" class="fragment" src="http://static7.comicvine.com/uploads/scale_super/5/53465/4223899-0698491997-416px.jpg">
+                    </section>
                 </section>
-                
-                <section>
-                    <h3>exemple</h3>
-                     <small>Contexte : on voudrait afficher chaque valeur d'une liste grâce à la méthode forEach</small>
-                     
-                </section>
-                
-                
                 <section>
                     <h2>Les Lambdas</h2>
-                    
+                    <small>
+                        Comme l'a montré le dernier exemple, la Lambda peut etre considérée comme une fonction anonyme. <br />
+                        <span class="fragment"><font color="red"> Attention ! Tout est objet en JAVA !!</font><br />
+                        Le compilateur va se charger de creer une classe anonyme derrière !
+                        </span>
+                    </small>
                 </section>
-				
-                
-                
-                
+                <section>
+                    <h2>La syntaxe</h2>
+                </section>
+                <section>
+                    <h3>Différents Exemples</h3>
+                    <pre><code class="java">
+//value n'a pas de parametre mais le compilateur sais le reconnaitre
+Arrays.&lt;String>asList("tst1", "tst2").stream()
+        .forEach(value -> System.out.println(value));
 
+//Lambda expression et inférence du type des paramètres
+Arrays.&lt;String>asList("tst1", "tst2")
+        .forEach((String value) -> System.out.println(value));
+
+//block de données possible
+Arrays.&lt;String>asList("tst1", "tst2")
+        .forEach(value -> {  System.out.println(value); });
+        </code></pre>
+<pre><code class="java">
+//Plusieurs parametre (reduce), parenthèse Obligatoire
+list.stream()
+    .filter((value -> value % 2 != 0))
+    .map(value ->  value * 2)
+    .distinct()
+    .reduce(0, (val1, val2) -> val1 + val2)
+                    </code></pre> 
+                </section>
+                <section>
+                    <h2><font color="orange">Warning</font></h2>
+                    <span class="fragment">
+                        Même si la lambda peut récuperer le scope du parent (principe de la closure)<br />
+                        <font color="red">Elle ne peux pas modifier les éléments extérieurs !</font>    
+                    </span>
+                    <pre class="fragment"><code class="java">
+public void test() {
+    int x = 0; //variable locale
+    Arrays.asList(1, 2, 3).forEach(value -> x+=value); //erreur !!!!
+    //La variable x est considérée final par la lambda.
+}
+                        </code></pre>
+                </section>
+                <section>
+                    <h2>Les Streams()</h2>
+                </section>
+                
+                <section>
+                    <h3>Qu'est ce ?</h3>
+                    <small class="fragment"  style="text-align=left">
+                        Un stream est un ensemble d'opérations sur des collections
+                        Il y a deux types d'opérations :
+                        <li>Les Opérations intermédiaires</li>
+                            N'effectue que des opérations de manipulation sur les collections
+                        <li>Les opérations finales</li>
+                            Un stream effectue des transformations jusqu'à une opération finale 
+                    <br /><br />
+                    Lien vers l'api Java des <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html">streams</a>
+                    </small>
+                </section>
+                <section>
+                    <h2>Les opérations intermédiaires</h2>
+                    <small>
+                        
+<li style="text-align:left;color:orange">.filter(Predicate< E>) → Stream< E></li>
+<p style="text-align:left">Choisit les élements si le predicat est vrai </p>
+<li style="text-align:left;color:orange">.map(Function< E, R>) → Stream< R> </li>
+<p style="text-align:left">Transforme les élements</p>
+<li style="text-align:left;color:orange">.flatMap(Function< E, Stream< R>>) → Stream< R></li>
+<p style="text-align:left">Applatit l'ensemble des Streams de chaque élement</p> 
+<li style="text-align:left;color:orange">.skip(), .limit()</li>
+<p style="text-align:left">Saute des élements, reduit le nombre d'élement</p>
+<li style="text-align:left;color:orange">.distinct(), .sorted(Comparator< E>)</li>
+<p style="text-align:left">Sans doublon (par rapport à equals), trie</p>
+                    </small>
+                </section>
+                <section>
+                    <h2>Les opérations terminales</h2>
+                    <small>
+<li style="text-align:left;color:orange">.count()</li>
+<p style="text-align:left"> Compte les élements</p>
+<li style="text-align:left;color:orange">.forEach(Consumer< E>)</li>
+<p style="text-align:left">Applique le consumer pour chaque élement</p> 
+<li style="text-align:left;color:orange">.allMatch(Predicate< E>), .anyMatch(Predicate< E>)</li>
+<p style="text-align:left">Vrai si tout les/au moins un élement(s) match</p>
+<li style="text-align:left;color:orange">.findAny(), .findFirst() → Optional< E></li>
+<p style="text-align:left">Trouver un ou le premier, renvoie une posibilité d'élement</p> 
+<li style="text-align:left;color:orange">.toArray(IntFunction)</li>
+<p style="text-align:left">Crée un tableau ex: .toArray(String[]::new)</p>
+<li style="text-align:left;color:orange">.reduce(), collect(Collector)</li>
+Aggège les éléments en 1 valeur (resp. non-mutable, mutable)
+                    </small>
+                </section>
+                <section>
+                    <h2>Un peu de cas pratique ?</h2>
+                </section>
+                <section>
+                    <h2><font color="orange"> Questions ?</font></h2>
+                </section>
 			</div>
-
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
+        <script src="js/script.js"></script>
 
 		<script>
 
 			// Full list of configuration options available at:
-			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				controls: true,
 				progress: true,
@@ -286,8 +425,6 @@ public Interface StringComparator {
 					{ src: 'plugin/notes/notes.js', async: true }
 				]
 			});
-
 		</script>
-
 	</body>
 </html>
