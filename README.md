@@ -1,7 +1,7 @@
 # TD
 
 ## Slides
-http://BloumineX.github.io/RexStreamLambda
+http://BloumineX.github.io/ReXStreamLambda
 
 ## Licence
 
